@@ -11,8 +11,8 @@
 //    Importa código de outros arquivos ou módulos do Node.js.
 //    - 'readline' é um módulo NATIVO (já vem com o Node, não precisa instalar)
 //    - './funcoes/leads' é o NOSSO módulo com a lógica de negócio
-const readline = require("readline");
-const { cadastrarNovoLead, listarLeads, buscarLeadPorNome } = require("./funcoes/leads");
+import readline from "readline";
+import { cadastrarNovoLead, listarLeads, buscarLeadPorNome } from "./funcoes/leads.js";
 
 // 📚 CONCEITO: readline.createInterface()
 //    Cria uma "interface" para ler dados que o usuário digita no terminal.
