@@ -1,0 +1,18 @@
+{
+    "name": "meu-primeiro-crm",
+    "version": "1.0.0",
+    "description": "CRM simples para aprendizado de arquitetura e persistência",
+    "type": "module",
+    "main": "crm.js",
+    "scripts": {
+        "start": "node crm.js"
+    },
+    "keywords": [
+        "crm",
+        "javascript",
+        "node",
+        "esm"
+    ],
+    "author": "Guilherme Mares",
+    "license": "MIT"
+}
