@@ -22,8 +22,14 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Determina qual arquivo de banco de dados usar (Real ou Teste)
+// 📚 CONCEITO: Variáveis de Ambiente
+//    Seniors usam variáveis como NODE_ENV para saber se o código
+//    está rodando em "Produção" ou em "Teste".
+const ARQUIVO_DB = process.env.NODE_ENV === "test" ? "leads.test.json" : "leads.json";
+
 // Caminho até o nosso "banco de dados" JSON.
-const CAMINHO_ARQUIVO = path.join(__dirname, "..", "dados", "leads.json");
+const CAMINHO_ARQUIVO = path.join(__dirname, "..", "dados", ARQUIVO_DB);
 
 // =============================================================
 // FUNÇÕES DE PERSISTÊNCIA (Ler / Gravar no arquivo JSON)

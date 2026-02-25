@@ -7,7 +7,7 @@
     "scripts": {
         "start": "node crm.js",
         "dev": "node --watch crm.js",
-        "test": "echo \"Erro: nenhum teste especificado\" && exit 1",
+        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
         "lint": "echo \"Erro: nenhum linter configurado\" && exit 1"
     },
     "keywords": [
@@ -17,5 +17,8 @@
         "esm"
     ],
     "author": "Guilherme Mares",
-    "license": "MIT"
+    "license": "MIT",
+    "devDependencies": {
+        "jest": "^30.2.0"
+    }
 }
