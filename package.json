@@ -5,7 +5,10 @@
     "type": "module",
     "main": "crm.js",
     "scripts": {
-        "start": "node crm.js"
+        "start": "node crm.js",
+        "dev": "node --watch crm.js",
+        "test": "echo \"Erro: nenhum teste especificado\" && exit 1",
+        "lint": "echo \"Erro: nenhum linter configurado\" && exit 1"
     },
     "keywords": [
         "crm",
