@@ -6,5 +6,13 @@
     "telefone": "11982888481",
     "status": "Novo",
     "data_criacao": "20/02/2026"
+  },
+  {
+    "id_lead": 2,
+    "nome_cliente": "Adelino",
+    "email": "YWRlbGlubzM0MTExMUBnbWFpbC5jb20=",
+    "telefone": "1199332323",
+    "status": "Novo",
+    "data_criacao": "25/02/2026"
   }
 ]
