@@ -14,6 +14,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { encriptar } from "./seguranca.js";
 
 // 📚 CONCEITO: __dirname no ES Modules
 //    No padrão ESM (import/export), as variáveis __dirname e __filename não existem.
@@ -72,8 +73,8 @@ export function cadastrarNovoLead(nome, email, telefone) {
     return null;
   }
 
-  const emailSeguro = Buffer.from(email).toString("base64");
-  console.log("🔒 Dados sensíveis criptografados com sucesso.");
+  const emailSeguro = encriptar(email);
+  console.log("🔒 Dados sensíveis protegidos com AES-256 com sucesso.");
 
   const leads = carregarLeads();
 

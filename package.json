@@ -7,7 +7,7 @@
     "scripts": {
         "start": "node crm.js",
         "dev": "node --watch crm.js",
-        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+        "test": "node --experimental-vm-modules node_modules/jest-cli/build/index.mjs",
         "lint": "echo \"Erro: nenhum linter configurado\" && exit 1"
     },
     "keywords": [

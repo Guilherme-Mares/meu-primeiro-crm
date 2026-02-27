@@ -7,6 +7,7 @@ import {
     buscarLeadPorNome,
     salvarLeads
 } from '../funcoes/leads.js';
+import { decriptar } from '../funcoes/seguranca.js';
 
 // Configuração de ambiente para os testes
 const __filename = fileURLToPath(import.meta.url);
@@ -67,12 +68,14 @@ describe('Módulo de Leads', () => {
             expect(segundo.id_lead).toBe(2);
         });
 
-        test('deve criptografar o email em Base64', () => {
+        test('deve encriptar o email de forma segura (não ser Base64 simples)', () => {
             const email = "secreto@teste.com";
-            const esperado = Buffer.from(email).toString('base64');
-
             const resultado = cadastrarNovoLead("Admin", email, "000");
-            expect(resultado.email).toBe(esperado);
+
+            // Verifica se o resultado contém o separador ':' do IV
+            expect(resultado.email).toContain(':');
+            // Verifica se o email decriptado volta ao original
+            expect(decriptar(resultado.email)).toBe(email);
         });
     });
 
