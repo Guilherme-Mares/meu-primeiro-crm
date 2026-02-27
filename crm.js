@@ -12,7 +12,7 @@
 //    - 'readline' é um módulo NATIVO (já vem com o Node, não precisa instalar)
 //    - './funcoes/leads' é o NOSSO módulo com a lógica de negócio
 import readline from "readline";
-import { cadastrarNovoLead, listarLeads, buscarLeadPorNome } from "./funcoes/leads.js";
+import { cadastrarNovoLead, listarLeads, buscarLeadPorNome, excluirLead } from "./funcoes/leads.js";
 
 // 📚 CONCEITO: readline.createInterface()
 //    Cria uma "interface" para ler dados que o usuário digita no terminal.
@@ -56,6 +56,7 @@ function exibirMenu() {
     console.log("  1. 📝 Cadastrar novo lead");
     console.log("  2. 📋 Listar todos os leads");
     console.log("  3. 🔍 Buscar lead por nome");
+    console.log("  4. 🗑️  Excluir lead pelo ID");
     console.log("  0. 🚪 Sair");
     console.log("========================================");
 }
@@ -93,6 +94,17 @@ async function fluxoBuscar() {
 }
 
 // =============================================================
+// FLUXO: Excluir Lead pelo ID
+// =============================================================
+
+async function fluxoExcluir() {
+    console.log("\n--- 🗑️  EXCLUIR LEAD ---\n");
+
+    const id = await perguntar("Digite o ID do lead que deseja excluir: ");
+    excluirLead(id);
+}
+
+// =============================================================
 // LOOP PRINCIPAL DO MENU
 //
 // 📚 CONCEITO: Loop do-while com switch-case
@@ -122,6 +134,10 @@ async function iniciar() {
 
             case "3":
                 await fluxoBuscar();
+                break;
+
+            case "4":
+                await fluxoExcluir();
                 break;
 
             case "0":

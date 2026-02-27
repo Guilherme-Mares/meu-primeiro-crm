@@ -135,3 +135,26 @@ export function buscarLeadPorNome(termoBusca) {
   return resultados;
 }
 
+/**
+ * Exclui um lead pelo seu ID.
+ * 
+ * @param {number} id - O ID do lead a ser excluído.
+ * @returns {boolean} - Retorna true se o lead foi deletado, false caso contrário.
+ */
+export function excluirLead(id) {
+  const leads = carregarLeads();
+  const tamanhoInicial = leads.length;
+
+  // Filtra o array removendo o lead que tem o ID passado
+  const leadsFiltrados = leads.filter(lead => lead.id_lead !== Number(id));
+
+  if (leadsFiltrados.length === tamanhoInicial) {
+    console.log(`\n❌ ERRO: Nenhum lead encontrado com o ID ${id}.`);
+    return false;
+  }
+
+  salvarLeads(leadsFiltrados);
+  console.log(`\n🗑️  SUCESSO: Lead com ID ${id} foi removido.`);
+  return true;
+}
+

@@ -5,7 +5,8 @@ import {
     cadastrarNovoLead,
     listarLeads,
     buscarLeadPorNome,
-    salvarLeads
+    salvarLeads,
+    excluirLead
 } from '../funcoes/leads.js';
 import { decriptar } from '../funcoes/seguranca.js';
 
@@ -117,6 +118,27 @@ describe('Módulo de Leads', () => {
         test('deve retornar array vazio se o fornecedor não existir', () => {
             const busca = buscarLeadPorNome("Inexistente");
             expect(busca).toEqual([]);
+        });
+    });
+
+    describe('excluirLead()', () => {
+
+        test('deve excluir um lead existente pelo ID', () => {
+            // Cria um lead primeiro
+            const lead = cadastrarNovoLead("Para Deletar", "del@test.com", "000");
+            const id = lead.id_lead;
+
+            // Executa a exclusão
+            const resultado = excluirLead(id);
+
+            // Verifica se retornou true e se a lista está vazia
+            expect(resultado).toBe(true);
+            expect(listarLeads().length).toBe(0);
+        });
+
+        test('deve retornar false ao tentar excluir um ID inexistente', () => {
+            const resultado = excluirLead(999);
+            expect(resultado).toBe(false);
         });
     });
 
