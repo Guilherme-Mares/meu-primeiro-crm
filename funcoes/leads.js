@@ -73,6 +73,14 @@ export function cadastrarNovoLead(nome, email, telefone) {
     return null;
   }
 
+  // NOVA VALIDAÇÃO DE EMAIL:
+  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regexEmail.test(email)) {
+    console.log("❌ ERRO DE VALIDAÇÃO: O email informado possui um formato inválido.");
+    return null;
+  }
+
+
   const emailSeguro = encriptar(email);
   console.log("🔒 Dados sensíveis protegidos com AES-256 com sucesso.");
 

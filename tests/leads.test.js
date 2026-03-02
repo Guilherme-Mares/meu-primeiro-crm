@@ -62,6 +62,20 @@ describe('Módulo de Leads', () => {
             expect(resultado).toBeNull();
         });
 
+        test('deve retornar null se o formato do email for inválido (regex)', () => {
+            // E-mail sem @
+            let resultado = cadastrarNovoLead("Teste", "emailinvalido.com", "123");
+            expect(resultado).toBeNull();
+
+            // E-mail sem ponto após o domínio
+            resultado = cadastrarNovoLead("Teste", "email@dominio", "123");
+            expect(resultado).toBeNull();
+
+            // Email com espaços
+            resultado = cadastrarNovoLead("Teste", "em ail@dominio.com", "123");
+            expect(resultado).toBeNull();
+        });
+
         test('deve gerar IDs incrementais corretamente', () => {
             cadastrarNovoLead("Primeiro", "p@t.com", "123");
             const segundo = cadastrarNovoLead("Segundo", "s@t.com", "456");
