@@ -166,3 +166,50 @@ export function excluirLead(id) {
   return true;
 }
 
+/**
+ * Edita um lead existente pelo seu ID.
+ * 
+ * @param {number} id - O ID do lead a ser editado.
+ * @param {Object} novosDados - Objeto contendo os dados a serem atualizados.
+ * @returns {Object|null} - Retorna o lead atualizado ou null se falhar/não encontrar.
+ */
+export function editarLead(id, novosDados) {
+  const leads = carregarLeads();
+  const index = leads.findIndex(lead => lead.id_lead === Number(id));
+
+  if (index === -1) {
+    console.log(`\n❌ ERRO: Nenhum lead encontrado com o ID ${id}.`);
+    return null;
+  }
+
+  // Pega o lead atual antes de modificar
+  const leadAtual = leads[index];
+
+  // Validação de e-mail através da Regex caso ele esteja sendo alterado
+  if (novosDados.email) {
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regexEmail.test(novosDados.email)) {
+      console.log("❌ ERRO DE VALIDAÇÃO: O email informado possui um formato inválido.");
+      return null;
+    }
+  }
+
+  // Atualiza apenas os campos que foram preenchidos
+  // 📚 CONCEITO: Operador de Coalescência Nula (??) ou Lógico OR (||)
+  // Se novosDados.nome for vazio, mantém leadAtual.nome_cliente
+  leadAtual.nome_cliente = novosDados.nome || leadAtual.nome_cliente;
+
+  if (novosDados.email) {
+    leadAtual.email = encriptar(novosDados.email);
+  }
+
+  leadAtual.telefone = novosDados.telefone || leadAtual.telefone;
+  leadAtual.status = novosDados.status || leadAtual.status;
+
+  salvarLeads(leads);
+
+  console.log(`\n✅ SUCESSO: Lead com ID ${id} foi atualizado!`);
+  console.log("Visualização do Registro Atualizado:", leadAtual);
+  return leadAtual;
+}
+

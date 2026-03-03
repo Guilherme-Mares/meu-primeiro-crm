@@ -12,7 +12,7 @@
 //    - 'readline' é um módulo NATIVO (já vem com o Node, não precisa instalar)
 //    - './funcoes/leads' é o NOSSO módulo com a lógica de negócio
 import readline from "readline";
-import { cadastrarNovoLead, listarLeads, buscarLeadPorNome, excluirLead } from "./funcoes/leads.js";
+import { cadastrarNovoLead, listarLeads, buscarLeadPorNome, excluirLead, editarLead } from "./funcoes/leads.js";
 
 // 📚 CONCEITO: readline.createInterface()
 //    Cria uma "interface" para ler dados que o usuário digita no terminal.
@@ -57,6 +57,7 @@ function exibirMenu() {
     console.log("  2. 📋 Listar todos os leads");
     console.log("  3. 🔍 Buscar lead por nome");
     console.log("  4. 🗑️  Excluir lead pelo ID");
+    console.log("  5. ✏️  Editar lead pelo ID");
     console.log("  0. 🚪 Sair");
     console.log("========================================");
 }
@@ -105,6 +106,25 @@ async function fluxoExcluir() {
 }
 
 // =============================================================
+// FLUXO: Editar Lead pelo ID
+// =============================================================
+
+async function fluxoEditar() {
+    console.log("\n--- ✏️  EDITAR LEAD ---\n");
+    console.log("Dica: Deixe em branco e aperte Enter para não alterar um campo.");
+
+    const id = await perguntar("ID do lead que deseja editar: ");
+    if (!id) return; // Cancela se não passar nada
+
+    const nome = await perguntar("Novo Nome: ");
+    const email = await perguntar("Novo Email: ");
+    const telefone = await perguntar("Novo Telefone: ");
+    const status = await perguntar("Novo Status (Novo / Em Contato / Convertido / Perdido): ");
+
+    editarLead(id, { nome, email, telefone, status });
+}
+
+// =============================================================
 // LOOP PRINCIPAL DO MENU
 //
 // 📚 CONCEITO: Loop do-while com switch-case
@@ -138,6 +158,10 @@ async function iniciar() {
 
             case "4":
                 await fluxoExcluir();
+                break;
+
+            case "5":
+                await fluxoEditar();
                 break;
 
             case "0":

@@ -6,7 +6,8 @@ import {
     listarLeads,
     buscarLeadPorNome,
     salvarLeads,
-    excluirLead
+    excluirLead,
+    editarLead
 } from '../funcoes/leads.js';
 import { decriptar } from '../funcoes/seguranca.js';
 
@@ -153,6 +154,47 @@ describe('Módulo de Leads', () => {
         test('deve retornar false ao tentar excluir um ID inexistente', () => {
             const resultado = excluirLead(999);
             expect(resultado).toBe(false);
+        });
+    });
+
+    describe('editarLead()', () => {
+
+        test('deve retornar null se o lead não existir', () => {
+            const resultado = editarLead(999, { nome: "Teste" });
+            expect(resultado).toBeNull();
+        });
+
+        test('deve atualizar apenas os dados fornecidos e manter os antigos', () => {
+            const lead = cadastrarNovoLead("Nome Original", "original@teste.com", "111");
+            const id = lead.id_lead;
+
+            const resultado = editarLead(id, { nome: "Nome Editado", telefone: "222" });
+
+            expect(resultado).not.toBeNull();
+            expect(resultado.nome_cliente).toBe("Nome Editado");
+            expect(resultado.telefone).toBe("222");
+            // Email não foi passado, deve permanecer o antigo
+            expect(decriptar(resultado.email)).toBe("original@teste.com");
+            expect(resultado.status).toBe("Novo");
+        });
+
+        test('deve rejeitar e-mail inválido na edição (Regex)', () => {
+            const lead = cadastrarNovoLead("Nome", "valido@teste.com", "111");
+            const id = lead.id_lead;
+
+            const resultado = editarLead(id, { email: "invalido@.com" });
+            expect(resultado).toBeNull();
+        });
+
+        test('deve encriptar o e-mail caso ele seja alterado', () => {
+            const lead = cadastrarNovoLead("Nome", "antigo@teste.com", "111");
+            const id = lead.id_lead;
+
+            const resultado = editarLead(id, { email: "novo@teste.com" });
+
+            expect(resultado).not.toBeNull();
+            expect(resultado.email).toContain(':'); // IV format validation
+            expect(decriptar(resultado.email)).toBe("novo@teste.com");
         });
     });
 
