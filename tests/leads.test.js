@@ -7,7 +7,8 @@ import {
     buscarLeadPorNome,
     salvarLeads,
     excluirLead,
-    editarLead
+    editarLead,
+    atualizarStatusLead
 } from '../funcoes/leads.js';
 import { decriptar } from '../funcoes/seguranca.js';
 
@@ -195,6 +196,34 @@ describe('Módulo de Leads', () => {
             expect(resultado).not.toBeNull();
             expect(resultado.email).toContain(':'); // IV format validation
             expect(decriptar(resultado.email)).toBe("novo@teste.com");
+        });
+
+        test('deve rejeitar uma alteração para um status inválido', () => {
+            const lead = cadastrarNovoLead("Teste Status", "status@teste.com", "111");
+            const id = lead.id_lead;
+
+            // "Inexistente" não está no nosso Enum do Funil
+            const resultado = editarLead(id, { status: "Inexistente" });
+            expect(resultado).toBeNull();
+        });
+    });
+
+    describe('atualizarStatusLead() (Funil de Vendas)', () => {
+        test('deve atualizar o status de um lead corretamente', () => {
+            const lead = cadastrarNovoLead("Funil", "funil@teste.com", "111");
+            // Por padrão, começa como "Novo"
+            expect(lead.status).toBe("Novo");
+
+            const resultado = atualizarStatusLead(lead.id_lead, "Qualificado");
+            expect(resultado).not.toBeNull();
+            expect(resultado.status).toBe("Qualificado");
+        });
+
+        test('deve retornar null se passar um status que não existe no funil', () => {
+            const lead = cadastrarNovoLead("Erro", "erro@teste.com", "111");
+
+            const resultado = atualizarStatusLead(lead.id_lead, "StatusInventado");
+            expect(resultado).toBeNull();
         });
     });
 

@@ -16,6 +16,21 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { encriptar } from "./seguranca.js";
 
+// =============================================================
+// 📚 CONCEITO: Enum e Validação de Domínio
+// Definindo os estados permitidos no nosso funil de vendas.
+// Isso evita que um estagiário ou erro de digitação crie
+// um lead com status "Contatdoo" em vez de "Contatado".
+// =============================================================
+export const STATUS_VALIDOS = [
+  "Novo",        // 1
+  "Contatado",   // 2
+  "Qualificado", // 3
+  "Proposta",    // 4
+  "Fechado",     // 5
+  "Perdido"      // 6
+];
+
 // 📚 CONCEITO: __dirname no ES Modules
 //    No padrão ESM (import/export), as variáveis __dirname e __filename não existem.
 //    Abaixo usamos um "truque" padrão do Node.js moderno para recriar o __dirname
@@ -194,6 +209,13 @@ export function editarLead(id, novosDados) {
     }
   }
 
+  // Validação: se tentarem mudar o status, deve ser um status válido do funil
+  if (novosDados.status && !STATUS_VALIDOS.includes(novosDados.status)) {
+    console.log(`❌ ERRO DE VALIDAÇÃO: O status '${novosDados.status}' não é reconhecido pelo funil de vendas.`);
+    console.log(`Opções válidas são: ${STATUS_VALIDOS.join(", ")}`);
+    return null;
+  }
+
   // Atualiza apenas os campos que foram preenchidos
   // 📚 CONCEITO: Operador de Coalescência Nula (??) ou Lógico OR (||)
   // Se novosDados.nome for vazio, mantém leadAtual.nome_cliente
@@ -211,5 +233,22 @@ export function editarLead(id, novosDados) {
   console.log(`\n✅ SUCESSO: Lead com ID ${id} foi atualizado!`);
   console.log("Visualização do Registro Atualizado:", leadAtual);
   return leadAtual;
+}
+
+/**
+ * Avança ou retrocede o status de um lead dentro do Funil de Vendas.
+ * 
+ * @param {number} id - O ID do lead.
+ * @param {string} novoStatus - O novo status (deve estar em STATUS_VALIDOS).
+ * @returns {Object|null} - Retorna o lead com o novo status ou null.
+ */
+export function atualizarStatusLead(id, novoStatus) {
+  if (!STATUS_VALIDOS.includes(novoStatus)) {
+    console.log(`\n❌ ERRO DE VALIDAÇÃO: O status '${novoStatus}' é inválido no funil.`);
+    return null;
+  }
+
+  // Podemos reaproveitar a função que acabamos de criar (Reuso de Código!)
+  return editarLead(id, { status: novoStatus });
 }
 

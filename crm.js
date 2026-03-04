@@ -12,7 +12,7 @@
 //    - 'readline' é um módulo NATIVO (já vem com o Node, não precisa instalar)
 //    - './funcoes/leads' é o NOSSO módulo com a lógica de negócio
 import readline from "readline";
-import { cadastrarNovoLead, listarLeads, buscarLeadPorNome, excluirLead, editarLead } from "./funcoes/leads.js";
+import { cadastrarNovoLead, listarLeads, buscarLeadPorNome, excluirLead, editarLead, atualizarStatusLead, STATUS_VALIDOS } from "./funcoes/leads.js";
 
 // 📚 CONCEITO: readline.createInterface()
 //    Cria uma "interface" para ler dados que o usuário digita no terminal.
@@ -58,6 +58,7 @@ function exibirMenu() {
     console.log("  3. 🔍 Buscar lead por nome");
     console.log("  4. 🗑️  Excluir lead pelo ID");
     console.log("  5. ✏️  Editar lead pelo ID");
+    console.log("  6. 🔄 Avançar status do lead (Funil)");
     console.log("  0. 🚪 Sair");
     console.log("========================================");
 }
@@ -119,9 +120,34 @@ async function fluxoEditar() {
     const nome = await perguntar("Novo Nome: ");
     const email = await perguntar("Novo Email: ");
     const telefone = await perguntar("Novo Telefone: ");
-    const status = await perguntar("Novo Status (Novo / Em Contato / Convertido / Perdido): ");
 
-    editarLead(id, { nome, email, telefone, status });
+    editarLead(id, { nome, email, telefone });
+}
+
+// =============================================================
+// FLUXO: Atualizar Status do Funil de Vendas
+// =============================================================
+
+async function fluxoAtualizarStatus() {
+    console.log("\n--- 🔄 ATUALIZAR STATUS (FUNIL) ---\n");
+
+    const id = await perguntar("ID do lead: ");
+    if (!id) return;
+
+    console.log("\nStatus disponíveis no funil:");
+    STATUS_VALIDOS.forEach((status, index) => {
+        console.log(`  ${index + 1}. ${status}`);
+    });
+
+    const opcao_status = await perguntar("\nDigite o NÚMERO do novo status: ");
+    const indice = Number(opcao_status) - 1;
+
+    if (indice >= 0 && indice < STATUS_VALIDOS.length) {
+        const novoStatus = STATUS_VALIDOS[indice];
+        atualizarStatusLead(id, novoStatus);
+    } else {
+        console.log("❌ ERRO: Opção de status inválida.");
+    }
 }
 
 // =============================================================
@@ -162,6 +188,10 @@ async function iniciar() {
 
             case "5":
                 await fluxoEditar();
+                break;
+
+            case "6":
+                await fluxoAtualizarStatus();
                 break;
 
             case "0":
