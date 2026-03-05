@@ -79,6 +79,9 @@ describe('Módulo de Leads', () => {
         });
 
         test('deve gerar IDs incrementais corretamente', () => {
+            // Garante que o banco está vazio APENAS nesse bloco para o id começar do 1
+            fs.writeFileSync(path.join(__dirname, '..', 'dados', 'leads.test.json'), '[]', 'utf-8');
+
             cadastrarNovoLead("Primeiro", "p@t.com", "123");
             const segundo = cadastrarNovoLead("Segundo", "s@t.com", "456");
 

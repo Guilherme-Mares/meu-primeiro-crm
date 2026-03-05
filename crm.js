@@ -13,6 +13,7 @@
 //    - './funcoes/leads' é o NOSSO módulo com a lógica de negócio
 import readline from "readline";
 import { cadastrarNovoLead, listarLeads, buscarLeadPorNome, excluirLead, editarLead, atualizarStatusLead, STATUS_VALIDOS } from "./funcoes/leads.js";
+import { adicionarInteracao, listarInteracoesDoLead, TIPOS_VALIDOS } from "./funcoes/interacoes.js";
 
 // 📚 CONCEITO: readline.createInterface()
 //    Cria uma "interface" para ler dados que o usuário digita no terminal.
@@ -59,6 +60,8 @@ function exibirMenu() {
     console.log("  4. 🗑️  Excluir lead pelo ID");
     console.log("  5. ✏️  Editar lead pelo ID");
     console.log("  6. 🔄 Avançar status do lead (Funil)");
+    console.log("  7. 📞 Registrar nova Interação");
+    console.log("  8. 📖 Ver histórico do Lead");
     console.log("  0. 🚪 Sair");
     console.log("========================================");
 }
@@ -151,6 +154,50 @@ async function fluxoAtualizarStatus() {
 }
 
 // =============================================================
+// FLUXO: Registrar Interação
+// =============================================================
+
+async function fluxoAdicionarInteracao() {
+    console.log("\n--- 📞 REGISTRAR NOVA INTERAÇÃO ---\n");
+
+    const id = await perguntar("ID do Lead: ");
+    if (!id) return;
+
+    console.log("\nCanais Disponíveis:");
+    TIPOS_VALIDOS.forEach((tipo, index) => {
+        console.log(`  ${index + 1}. ${tipo}`);
+    });
+
+    const numeroAcao = await perguntar("\nQual foi o canal da interação? (Digite o número) ");
+    const indice = Number(numeroAcao) - 1;
+
+    let tipoEscolhido = "";
+
+    if (indice >= 0 && indice < TIPOS_VALIDOS.length) {
+        tipoEscolhido = TIPOS_VALIDOS[indice];
+    } else {
+        console.log("❌ ERRO: O canal de interação escolhido é inválido.");
+        return;
+    }
+
+    const descricao = await perguntar("Descreva resumidamente a interação: ");
+    adicionarInteracao(id, tipoEscolhido, descricao);
+}
+
+// =============================================================
+// FLUXO: Ver Histórico do Lead
+// =============================================================
+
+async function fluxoListarInteracoes() {
+    console.log("\n--- 📖 HISTÓRICO DE INTERAÇÕES ---\n");
+
+    const id = await perguntar("Digite o ID do lead para ver o histórico: ");
+    if (!id) return;
+
+    listarInteracoesDoLead(id);
+}
+
+// =============================================================
 // LOOP PRINCIPAL DO MENU
 //
 // 📚 CONCEITO: Loop do-while com switch-case
@@ -192,6 +239,14 @@ async function iniciar() {
 
             case "6":
                 await fluxoAtualizarStatus();
+                break;
+
+            case "7":
+                await fluxoAdicionarInteracao();
+                break;
+
+            case "8":
+                await fluxoListarInteracoes();
                 break;
 
             case "0":
