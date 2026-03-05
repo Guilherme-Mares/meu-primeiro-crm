@@ -80,11 +80,11 @@ export function salvarLeads(leads) {
 /**
  * Cadastra um novo lead seguindo o fluxo do fluxograma.
  */
-export function cadastrarNovoLead(nome, email, telefone) {
+export function cadastrarNovoLead(nome, email, telefone, id_usuario) {
   console.log("\n--- [SISTEMA] Iniciando processo de cadastro... ---");
 
-  if (!nome || !email || !telefone) {
-    console.log("❌ ERRO DE VALIDAÇÃO: Todos os campos devem ser preenchidos.");
+  if (!nome || !email || !telefone || !id_usuario) {
+    console.log("❌ ERRO DE VALIDAÇÃO: Todos os campos devem ser preenchidos, incluindo o ID do usuário.");
     return null;
   }
 
@@ -107,6 +107,7 @@ export function cadastrarNovoLead(nome, email, telefone) {
 
   const novoLead = {
     id_lead: maiorId + 1,
+    id_usuario: Number(id_usuario), // Vínculo com o dono do lead
     nome_cliente: nome,
     email: emailSeguro,
     telefone: telefone,

@@ -28,8 +28,8 @@ describe('Módulo de Interações (1:N)', () => {
     describe('adicionarInteracao()', () => {
 
         test('deve registrar com sucesso uma nova interação vinculada ao Lead (ForeignKey válida)', () => {
-            const lead = cadastrarNovoLead("Joao Teste", "joao@t.com", "123");
-            const int = adicionarInteracao(lead.id_lead, "Email", "Enviei apresentação");
+            const lead = cadastrarNovoLead("Joao Teste", "joao@t.com", "123", 1);
+            const int = adicionarInteracao(lead.id_lead, "Email", "Enviei apresentação", 1);
 
             expect(int).not.toBeNull();
             expect(int.tipo).toBe("Email");
@@ -38,21 +38,21 @@ describe('Módulo de Interações (1:N)', () => {
         });
 
         test('deve rejeitar uma interação caso o ID do Lead não exista', () => {
-            const int = adicionarInteracao(999, "Reunião", "Apresentou erro");
+            const int = adicionarInteracao(999, "Reunião", "Apresentou erro", 1);
             expect(int).toBeNull();
         });
 
         test('deve rejeitar quando o tipo de interação for inválido (Fora do Enum)', () => {
-            const lead = cadastrarNovoLead("Maria Teste", "maria@t.com", "123");
-            const int = adicionarInteracao(lead.id_lead, "Grito", "Gritei com o cliente");
+            const lead = cadastrarNovoLead("Maria Teste", "maria@t.com", "123", 1);
+            const int = adicionarInteracao(lead.id_lead, "Grito", "Gritei com o cliente", 1);
 
             expect(int).toBeNull();
         });
 
         test('deve rejeitar histórico sem descrição ou em branco', () => {
-            const lead = cadastrarNovoLead("Joao Teste", "joao@t.com", "123");
-            const intBranco = adicionarInteracao(lead.id_lead, "Ligação", "");
-            const intNula = adicionarInteracao(lead.id_lead, "Ligação", null);
+            const lead = cadastrarNovoLead("Joao Teste", "joao@t.com", "123", 1);
+            const intBranco = adicionarInteracao(lead.id_lead, "Ligação", "", 1);
+            const intNula = adicionarInteracao(lead.id_lead, "Ligação", null, 1);
 
             expect(intBranco).toBeNull();
             expect(intNula).toBeNull();
@@ -68,13 +68,13 @@ describe('Módulo de Interações (1:N)', () => {
 
         test('deve listar apenas as interações do Lead pesquisado (ignorar de outros)', () => {
             // Setup: Criamos 2 clientes distintos
-            const leadUm = cadastrarNovoLead("Primeiro", "um@t.com", "111");
-            const leadDois = cadastrarNovoLead("Segundo", "dois@t.com", "222");
+            const leadUm = cadastrarNovoLead("Primeiro", "um@t.com", "111", 1);
+            const leadDois = cadastrarNovoLead("Segundo", "dois@t.com", "222", 1);
 
             // Cria 3 interações: duas pro Lead 1, uma pro Lead 2
-            adicionarInteracao(leadUm.id_lead, "Reunião", "Draft online");
-            adicionarInteracao(leadUm.id_lead, "Email", "Follow-up do draft");
-            adicionarInteracao(leadDois.id_lead, "Ligação", "Primeiro contato");
+            adicionarInteracao(leadUm.id_lead, "Reunião", "Draft online", 1);
+            adicionarInteracao(leadUm.id_lead, "Email", "Follow-up do draft", 1);
+            adicionarInteracao(leadDois.id_lead, "Ligação", "Primeiro contato", 1);
 
             // Exige somente o log do Lead 1
             const resultLeadUm = listarInteracoesDoLead(leadUm.id_lead);

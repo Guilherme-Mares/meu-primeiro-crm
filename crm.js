@@ -14,6 +14,7 @@
 import readline from "readline";
 import { cadastrarNovoLead, listarLeads, buscarLeadPorNome, excluirLead, editarLead, atualizarStatusLead, STATUS_VALIDOS } from "./funcoes/leads.js";
 import { adicionarInteracao, listarInteracoesDoLead, TIPOS_VALIDOS } from "./funcoes/interacoes.js";
+import { fazerLogin } from "./funcoes/usuarios.js";
 
 // 📚 CONCEITO: readline.createInterface()
 //    Cria uma "interface" para ler dados que o usuário digita no terminal.
@@ -23,6 +24,9 @@ const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
 });
+
+// Estado global para saber quem está logado usando o CRM
+let usuarioLogado = null;
 
 // =============================================================
 // FUNÇÃO: Fazer uma pergunta e esperar a resposta
@@ -84,7 +88,7 @@ async function fluxoCadastrar() {
     const email = await perguntar("Email: ");
     const telefone = await perguntar("Telefone: ");
 
-    cadastrarNovoLead(nome, email, telefone);
+    cadastrarNovoLead(nome, email, telefone, usuarioLogado.id_usuario);
 }
 
 // =============================================================
@@ -181,7 +185,7 @@ async function fluxoAdicionarInteracao() {
     }
 
     const descricao = await perguntar("Descreva resumidamente a interação: ");
-    adicionarInteracao(id, tipoEscolhido, descricao);
+    adicionarInteracao(id, tipoEscolhido, descricao, usuarioLogado.id_usuario);
 }
 
 // =============================================================
@@ -208,9 +212,19 @@ async function fluxoListarInteracoes() {
 // =============================================================
 
 async function iniciar() {
+    console.log("\n========================================");
+    console.log("        🔐 LOGIN OBRIGATÓRIO");
+    console.log("========================================");
+
+    while (!usuarioLogado) {
+        const email = await perguntar("Email: ");
+        const senha = await perguntar("Senha: ");
+        usuarioLogado = fazerLogin(email, senha);
+    }
+
     let opcao = "";
 
-    console.log("\n🚀 Bem-vindo ao seu CRM! Os dados são salvos automaticamente.");
+    console.log("\n🚀 Bem-vindo ao CRM Interativo! Os dados são salvos automaticamente.");
 
     do {
         exibirMenu();

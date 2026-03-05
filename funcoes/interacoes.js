@@ -51,9 +51,10 @@ export function salvarInteracoes(interacoes) {
  * @param {number} id_lead - O ID real do lead que recebeu a interação.
  * @param {string} tipo - Canal de contato (Ligação, Email, etc).
  * @param {string} descricao - Resumo descritivo da interação.
+ * @param {number} id_usuario - ID do usuário atendente.
  * @returns {Object|null} - Registro criado ou null caso erro.
  */
-export function adicionarInteracao(id_lead, tipo, descricao) {
+export function adicionarInteracao(id_lead, tipo, descricao, id_usuario) {
     // 📚 CONCEITO: Integridade Referencial
     // Um banco de dados real (SQL) se recusaria a criar uma interação
     // "filha" se o "pai" (o Lead) não existir. Faremos essa validação aqui!
@@ -62,6 +63,11 @@ export function adicionarInteracao(id_lead, tipo, descricao) {
 
     if (!leadExiste) {
         console.log(`❌ ERRO: Não é possível registrar iteração para um Lead inexistente (ID ${id_lead}).`);
+        return null;
+    }
+
+    if (!id_usuario) {
+        console.log("❌ ERRO: A interação precisa ser vinculada a um usuário existente.");
         return null;
     }
 
@@ -84,6 +90,7 @@ export function adicionarInteracao(id_lead, tipo, descricao) {
     const novaInteracao = {
         id_interacao: maiorId + 1,
         id_lead: Number(id_lead), // Aqui está o nosso "ForeignKey"
+        id_usuario: Number(id_usuario), // ForeignKey 2
         tipo: tipo,
         descricao: descricao,
         data_registro: new Date().toLocaleString("pt-BR") // Salva também a hora

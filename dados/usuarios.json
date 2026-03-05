@@ -1,0 +1,8 @@
+[
+    {
+        "id_usuario": 1,
+        "nome": "Admin",
+        "email": "admin@crm.com",
+        "senha": "123"
+    }
+]

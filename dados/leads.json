@@ -302,5 +302,23 @@
     "telefone": "456",
     "status": "Novo",
     "data_criacao": "27/02/2026"
+  },
+  {
+    "id_lead": 39,
+    "id_usuario": 1,
+    "nome_cliente": "Primeiro",
+    "email": "cec655429fae8c6b6489e551d79ae7dc:103304ed44c05780904867393d0fa047",
+    "telefone": "123",
+    "status": "Novo",
+    "data_criacao": "05/03/2026"
+  },
+  {
+    "id_lead": 40,
+    "id_usuario": 1,
+    "nome_cliente": "Segundo",
+    "email": "fcb22768cbb24f28c8d13bad2e44ad63:d01747a3c81d07fdc14494e448a3ec4f",
+    "telefone": "456",
+    "status": "Novo",
+    "data_criacao": "05/03/2026"
   }
 ]

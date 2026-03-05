@@ -50,7 +50,7 @@ describe('Módulo de Leads', () => {
             const telefone = "11999998888";
 
             // Act (Agir)
-            const resultado = cadastrarNovoLead(nome, email, telefone);
+            const resultado = cadastrarNovoLead(nome, email, telefone, 1);
 
             // Assert (Verificar)
             expect(resultado).not.toBeNull();
@@ -60,37 +60,36 @@ describe('Módulo de Leads', () => {
         });
 
         test('deve retornar null se faltar algum campo obrigatório', () => {
-            const resultado = cadastrarNovoLead("Sem Email", "", "11988887777");
+            const resultado = cadastrarNovoLead("Sem Email", "", "11988887777", 1);
             expect(resultado).toBeNull();
         });
 
         test('deve retornar null se o formato do email for inválido (regex)', () => {
             // E-mail sem @
-            let resultado = cadastrarNovoLead("Teste", "emailinvalido.com", "123");
+            let resultado = cadastrarNovoLead("Teste", "emailinvalido.com", "123", 1);
             expect(resultado).toBeNull();
 
             // E-mail sem ponto após o domínio
-            resultado = cadastrarNovoLead("Teste", "email@dominio", "123");
+            resultado = cadastrarNovoLead("Teste", "email@dominio", "123", 1);
             expect(resultado).toBeNull();
 
             // Email com espaços
-            resultado = cadastrarNovoLead("Teste", "em ail@dominio.com", "123");
+            resultado = cadastrarNovoLead("Teste", "em ail@dominio.com", "123", 1);
             expect(resultado).toBeNull();
         });
 
         test('deve gerar IDs incrementais corretamente', () => {
-            // Garante que o banco está vazio APENAS nesse bloco para o id começar do 1
             fs.writeFileSync(path.join(__dirname, '..', 'dados', 'leads.test.json'), '[]', 'utf-8');
 
-            cadastrarNovoLead("Primeiro", "p@t.com", "123");
-            const segundo = cadastrarNovoLead("Segundo", "s@t.com", "456");
+            cadastrarNovoLead("Primeiro", "p@t.com", "123", 1);
+            const segundo = cadastrarNovoLead("Segundo", "s@t.com", "456", 1);
 
             expect(segundo.id_lead).toBe(2);
         });
 
         test('deve encriptar o email de forma segura (não ser Base64 simples)', () => {
             const email = "secreto@teste.com";
-            const resultado = cadastrarNovoLead("Admin", email, "000");
+            const resultado = cadastrarNovoLead("Admin", email, "000", 1);
 
             // Verifica se o resultado contém o separador ':' do IV
             expect(resultado.email).toContain(':');
@@ -107,8 +106,8 @@ describe('Módulo de Leads', () => {
         });
 
         test('deve retornar todos os leads cadastrados', () => {
-            cadastrarNovoLead("Lead 1", "l1@t.com", "1");
-            cadastrarNovoLead("Lead 2", "l2@t.com", "2");
+            cadastrarNovoLead("Lead 1", "l1@t.com", "1", 1);
+            cadastrarNovoLead("Lead 2", "l2@t.com", "2", 1);
 
             const lista = listarLeads();
             expect(lista.length).toBe(2);
@@ -118,8 +117,8 @@ describe('Módulo de Leads', () => {
     describe('buscarLeadPorNome()', () => {
 
         beforeEach(() => {
-            cadastrarNovoLead("Guilherme Mares", "g@m.com", "123");
-            cadastrarNovoLead("Carlos Alberto", "c@a.com", "456");
+            cadastrarNovoLead("Guilherme Mares", "g@m.com", "123", 1);
+            cadastrarNovoLead("Carlos Alberto", "c@a.com", "456", 1);
         });
 
         test('deve encontrar um lead pelo nome exato', () => {
@@ -144,7 +143,7 @@ describe('Módulo de Leads', () => {
 
         test('deve excluir um lead existente pelo ID', () => {
             // Cria um lead primeiro
-            const lead = cadastrarNovoLead("Para Deletar", "del@test.com", "000");
+            const lead = cadastrarNovoLead("Para Deletar", "del@test.com", "000", 1);
             const id = lead.id_lead;
 
             // Executa a exclusão
@@ -169,7 +168,7 @@ describe('Módulo de Leads', () => {
         });
 
         test('deve atualizar apenas os dados fornecidos e manter os antigos', () => {
-            const lead = cadastrarNovoLead("Nome Original", "original@teste.com", "111");
+            const lead = cadastrarNovoLead("Nome Original", "original@teste.com", "111", 1);
             const id = lead.id_lead;
 
             const resultado = editarLead(id, { nome: "Nome Editado", telefone: "222" });
@@ -183,7 +182,7 @@ describe('Módulo de Leads', () => {
         });
 
         test('deve rejeitar e-mail inválido na edição (Regex)', () => {
-            const lead = cadastrarNovoLead("Nome", "valido@teste.com", "111");
+            const lead = cadastrarNovoLead("Nome", "valido@teste.com", "111", 1);
             const id = lead.id_lead;
 
             const resultado = editarLead(id, { email: "invalido@.com" });
@@ -191,7 +190,7 @@ describe('Módulo de Leads', () => {
         });
 
         test('deve encriptar o e-mail caso ele seja alterado', () => {
-            const lead = cadastrarNovoLead("Nome", "antigo@teste.com", "111");
+            const lead = cadastrarNovoLead("Nome", "antigo@teste.com", "111", 1);
             const id = lead.id_lead;
 
             const resultado = editarLead(id, { email: "novo@teste.com" });
@@ -202,7 +201,7 @@ describe('Módulo de Leads', () => {
         });
 
         test('deve rejeitar uma alteração para um status inválido', () => {
-            const lead = cadastrarNovoLead("Teste Status", "status@teste.com", "111");
+            const lead = cadastrarNovoLead("Teste Status", "status@teste.com", "111", 1);
             const id = lead.id_lead;
 
             // "Inexistente" não está no nosso Enum do Funil
@@ -213,7 +212,7 @@ describe('Módulo de Leads', () => {
 
     describe('atualizarStatusLead() (Funil de Vendas)', () => {
         test('deve atualizar o status de um lead corretamente', () => {
-            const lead = cadastrarNovoLead("Funil", "funil@teste.com", "111");
+            const lead = cadastrarNovoLead("Funil", "funil@teste.com", "111", 1);
             // Por padrão, começa como "Novo"
             expect(lead.status).toBe("Novo");
 
@@ -223,7 +222,7 @@ describe('Módulo de Leads', () => {
         });
 
         test('deve retornar null se passar um status que não existe no funil', () => {
-            const lead = cadastrarNovoLead("Erro", "erro@teste.com", "111");
+            const lead = cadastrarNovoLead("Erro", "erro@teste.com", "111", 1);
 
             const resultado = atualizarStatusLead(lead.id_lead, "StatusInventado");
             expect(resultado).toBeNull();
