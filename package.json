@@ -3,10 +3,12 @@
     "version": "1.0.0",
     "description": "CRM simples para aprendizado de arquitetura e persistência",
     "type": "module",
-    "main": "crm.js",
+    "main": "server.js",
     "scripts": {
-        "start": "node crm.js",
-        "dev": "node --watch crm.js",
+        "start": "node server.js",
+        "dev": "node --watch server.js",
+        "start:cli": "node crm.js",
+        "dev:cli": "node --watch crm.js",
         "test": "node --experimental-vm-modules node_modules/jest-cli/build/index.mjs --runInBand",
         "lint": "echo \"Erro: nenhum linter configurado\" && exit 1"
     },
@@ -20,5 +22,10 @@
     "license": "MIT",
     "devDependencies": {
         "jest": "^30.2.0"
+    },
+    "dependencies": {
+        "cors": "^2.8.6",
+        "express": "^5.2.1",
+        "jsonwebtoken": "^9.0.3"
     }
 }
