@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import authRouter from './rotas/auth.js';
+import leadsRouter from './rotas/leads.js';
 // Middleware disponível para rotas protegidas nas próximas Issues
 export { verificarSessao } from './middlewares/verificarSessao.js';
 
@@ -22,6 +23,9 @@ app.get('/api/status', (_req, res) => {
 
 // Rotas de autenticação
 app.use('/api', authRouter);
+
+// Rotas de leads (protegidas por JWT)
+app.use('/api/leads', leadsRouter);
 
 // Iniciar servidor
 app.listen(PORT, () => {
