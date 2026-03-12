@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Primeiro CRM</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>CRM<span class="text-primary">.PRO</span></h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active" id="nav-leads"><i class="icon">👥</i> Leads</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="btn-logout" class="btn btn-outline">Sair</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <h1>Painel de Leads</h1>
+                <div class="user-info">
+                    <span id="user-name">Usuário</span>
+                </div>
+            </header>
+
+            <section id="content-area" class="content">
+                <!-- Conteúdo dinâmico será injetado aqui pelo app.js -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Bem-vindo ao Novo CRM</h2>
+                        <button class="btn btn-primary" id="btn-novo-lead">Novo Lead</button>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Selecione uma opção no menu lateral para começar.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Interface de Login (Oculta por padrão até ser necessária) -->
+    <div id="login-modal" class="modal hidden">
+        <div class="modal-content card">
+            <h2>Acesso ao Sistema</h2>
+            <form id="form-login">
+                <div class="form-group">
+                    <label for="login-email">E-mail</label>
+                    <input type="email" id="login-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-senha">Senha</label>
+                    <input type="password" id="login-senha" class="form-control" required>
+                </div>
+                <div id="login-erro" class="text-danger hidden"></div>
+                <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
