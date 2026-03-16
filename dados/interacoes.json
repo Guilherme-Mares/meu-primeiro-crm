@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id_interacao": 1,
+    "id_lead": 1,
+    "id_usuario": 1,
+    "tipo": "Email",
+    "descricao": "Enviei proposta comercial via API",
+    "data_registro": "11/03/2026, 18:42:14"
+  }
+]

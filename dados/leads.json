@@ -1,45 +1,5 @@
 [
   {
-    "id_lead": 1,
-    "nome_cliente": "Joao",
-    "email": "d61a998d90f169299796459d4aa49a8a:6557a8c4e8a22374f1e80c2aac2e105a90c7f9591d7b9c39948c533d2051f5eb",
-    "telefone": "11922222222",
-    "status": "Em Contato",
-    "data_criacao": "20/02/2026"
-  },
-  {
-    "id_lead": 2,
-    "nome_cliente": "Adelino",
-    "email": "YWRlbGlubzM0MTExMUBnbWFpbC5jb20=",
-    "telefone": "1199332323",
-    "status": "Novo",
-    "data_criacao": "25/02/2026"
-  },
-  {
-    "id_lead": 3,
-    "nome_cliente": "Fulano de Tal",
-    "email": "17bfe9a5cdf43b62362fd3b188bd00a2:6b0429babcc7b8a7fa1d58f469716e4ca83ab1511df6d914765c2fe4ddd334c8",
-    "telefone": "11999998888",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 4,
-    "nome_cliente": "Primeiro",
-    "email": "3af2df49f5396b831ae6509f29977c07:af88729a086de6242ac2ecf7475bfa87",
-    "telefone": "123",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 5,
-    "nome_cliente": "Segundo",
-    "email": "fe7d599621780712c8e6b387f7f657b7:ab95ce59cd53153daef27e79b5d13246",
-    "telefone": "456",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
     "id_lead": 6,
     "nome_cliente": "Admin",
     "email": "daaa4cbcc055986be48863b430faa898:8c63e49ae7deced7ffa4b79d5094cede504a5f1ddb5ff4f6f8235f0055697239",
@@ -64,170 +24,10 @@
     "data_criacao": "27/02/2026"
   },
   {
-    "id_lead": 9,
-    "nome_cliente": "Guilherme Mares",
-    "email": "5c6cb51e51fdb9156744b988b67e5fa1:0ce0723adecba768052b432592aa9058",
-    "telefone": "123",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 10,
-    "nome_cliente": "Carlos Alberto",
-    "email": "50c64780a6b53199cc6bb2599b758cdd:d2869b5cab279c6ed1950e4577fe6ece",
-    "telefone": "456",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 11,
-    "nome_cliente": "Guilherme Mares",
-    "email": "6689c4cb0d9d7ce01a66aa0518117e3b:fd7fdcfa7bcd90ab30dfeccf9895319c",
-    "telefone": "123",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 12,
-    "nome_cliente": "Carlos Alberto",
-    "email": "8350867cb9ad330b30d4dd8d51d34218:a946bf5ed1fbc1aad9e1b94d6cc699ea",
-    "telefone": "456",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 13,
-    "nome_cliente": "Guilherme Mares",
-    "email": "7eba13b1c8fc2e44e6178e965a72ab95:20b6c7f5d2257a2add8e149a50828950",
-    "telefone": "123",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 14,
-    "nome_cliente": "Carlos Alberto",
-    "email": "873bd04907f1ad9a26ef34c893f7b3ad:cb0348e12db45d0bc75ba75c5006e681",
-    "telefone": "456",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 15,
-    "nome_cliente": "Fulano de Tal",
-    "email": "944ce87b620770930ad0ff8874dafcac:2778e46df41c8373bd83e6cf438444619f945b50edb58075af2babe812a5a1f2",
-    "telefone": "11999998888",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 16,
-    "nome_cliente": "Primeiro",
-    "email": "1ee1caa4eff1104cb2a19282e5fcd859:fc00636ffb823eba531a624680445429",
-    "telefone": "123",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 17,
-    "nome_cliente": "Segundo",
-    "email": "21fb9a3ea63382ccc7bee273bac2d1be:9f671802f38803365e3845b2f961d6be",
-    "telefone": "456",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
     "id_lead": 18,
     "nome_cliente": "Admin",
     "email": "f82cb20519a9a350c53dc2cd97923aec:54aac329c13ec42026ab63e128d6fa839de29461a3bdbd97e8b248a3db5d973f",
     "telefone": "000",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 19,
-    "nome_cliente": "Lead 1",
-    "email": "25582467e269da640da0bfecbec7fd66:70185885d870118a22a6c8880cfb12a0",
-    "telefone": "1",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 20,
-    "nome_cliente": "Lead 2",
-    "email": "4bee7ca769ff13bb1394c5d514b3e79f:d9171d39dcb4ffc7267515f7f8dee8e6",
-    "telefone": "2",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 21,
-    "nome_cliente": "Guilherme Mares",
-    "email": "738753d10238904c445f344c7909d5c9:c0850c2d89bb7e466cb8f5a2d940aef9",
-    "telefone": "123",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 22,
-    "nome_cliente": "Carlos Alberto",
-    "email": "b25caa22715dc60a2d02014d39bce947:9501e5acdc24711e790cdf3d52746fa5",
-    "telefone": "456",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 23,
-    "nome_cliente": "Guilherme Mares",
-    "email": "3c67ddc42a096ada23b0f976f6a46289:d259ca374d61081b066f261bb5433702",
-    "telefone": "123",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 24,
-    "nome_cliente": "Carlos Alberto",
-    "email": "de56fd20f946735c22e4c28e0fbf0246:979ff1f1fa70247a8938e81580b672e1",
-    "telefone": "456",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 25,
-    "nome_cliente": "Guilherme Mares",
-    "email": "4ed5b27ec7181f3a396976d64923b90b:430b6cafec08da2ab0bc49e22002b7e8",
-    "telefone": "123",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 26,
-    "nome_cliente": "Carlos Alberto",
-    "email": "cccead6aa8d2f0dad4d42aec7862fa66:12da72a8b7761371c1bd69dc5aff10d9",
-    "telefone": "456",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 27,
-    "nome_cliente": "Fulano de Tal",
-    "email": "f9fdf6b51e2a2ee4382a11fb47b544fb:4ea2e3c2fa55d425bba1a0a4ee96f3bf22ba6436b1fbbc425ba2ccae02379b23",
-    "telefone": "11999998888",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 28,
-    "nome_cliente": "Primeiro",
-    "email": "ef2894c2c3f668ab8e5a76ae70f3a0f9:5f801f7cbf6386f8dc03fb2f737e3717",
-    "telefone": "123",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 29,
-    "nome_cliente": "Segundo",
-    "email": "d23018421a947e1e40a9579dcc95584c:1388232429803e18bbe1a0d43bae7ddf",
-    "telefone": "456",
     "status": "Novo",
     "data_criacao": "27/02/2026"
   },
@@ -240,85 +40,21 @@
     "data_criacao": "27/02/2026"
   },
   {
-    "id_lead": 31,
-    "nome_cliente": "Lead 1",
-    "email": "560c65c7de432ab07930bba99e55a9f6:6c9ed3e336c4998602d60bb8461860fe",
-    "telefone": "1",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 32,
-    "nome_cliente": "Lead 2",
-    "email": "99eed73bcb40f9ec878ae2b1e49678dc:b434c750b0bebbc3094d11942f429f14",
-    "telefone": "2",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 33,
-    "nome_cliente": "Guilherme Mares",
-    "email": "af4f4aa2abb2f803a98b85da1370b5ab:d5ffd0500c780c840db7d8b7686f6841",
-    "telefone": "123",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 34,
-    "nome_cliente": "Carlos Alberto",
-    "email": "efc04f91811800c0e2181853ea3b2272:e560904f2428160882fa7c06f2ae8142",
-    "telefone": "456",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 35,
-    "nome_cliente": "Guilherme Mares",
-    "email": "fb34d7c4ae7eae508ca79f9f1915adbe:6aa7af7ae46053c0bc6bd521ac17367a",
-    "telefone": "123",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 36,
-    "nome_cliente": "Carlos Alberto",
-    "email": "abb72af334cb303655732fb45708dda4:fa19b26dbd22114e70f1b314282e60c2",
-    "telefone": "456",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 37,
-    "nome_cliente": "Guilherme Mares",
-    "email": "bb36cbc70415ade574b79dff7e509332:54e98dda5dfd89cd8458c91f951facc1",
-    "telefone": "123",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 38,
-    "nome_cliente": "Carlos Alberto",
-    "email": "7be9f30b9a9424a4024f462989597e52:469170df9b6be56441360ffa16c585f1",
-    "telefone": "456",
-    "status": "Novo",
-    "data_criacao": "27/02/2026"
-  },
-  {
-    "id_lead": 39,
+    "id_lead": 41,
     "id_usuario": 1,
-    "nome_cliente": "Primeiro",
-    "email": "cec655429fae8c6b6489e551d79ae7dc:103304ed44c05780904867393d0fa047",
-    "telefone": "123",
+    "nome_cliente": "Teste Crash",
+    "email": "1c06adf165947e018b9b075b58333b53:f8c26e0d27855b4db9ad32a285767233",
+    "telefone": "999",
     "status": "Novo",
-    "data_criacao": "05/03/2026"
+    "data_criacao": "16/03/2026"
   },
   {
-    "id_lead": 40,
+    "id_lead": 42,
     "id_usuario": 1,
-    "nome_cliente": "Segundo",
-    "email": "fcb22768cbb24f28c8d13bad2e44ad63:d01747a3c81d07fdc14494e448a3ec4f",
-    "telefone": "456",
+    "nome_cliente": "Teste",
+    "email": "0b27bb4b9dbe37743cf7473e6015b486:b19f13edb290f6b776e802026277e47c61f53390fac7edffb8a13da9e162b95a",
+    "telefone": "99",
     "status": "Novo",
-    "data_criacao": "05/03/2026"
+    "data_criacao": "16/03/2026"
   }
 ]
