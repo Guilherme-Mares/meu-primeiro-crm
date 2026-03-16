@@ -266,3 +266,67 @@ a {
     margin-bottom: var(--spacing-4);
     text-align: center;
 }
+/* Table and Badges for Leads */
+
+/* Tabelas */
+.crm-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.crm-table th, .crm-table td {
+    padding: var(--spacing-3) var(--spacing-4);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.crm-table th {
+    background-color: #f1f5f9; /* Cinza bem claro pro cabecalho */
+    font-weight: 600;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.crm-table tr:hover {
+    background-color: var(--color-bg);
+}
+
+.crm-table td {
+    vertical-align: middle;
+}
+
+/* Badges (Status de Funil) */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px; /* Pill shape */
+    text-align: center;
+}
+
+.badge-status-novo { background-color: #e0e7ff; color: #4338ca; }
+.badge-status-contatado { background-color: #fef3c7; color: #b45309; }
+.badge-status-qualificado { background-color: #dbeafe; color: #1e40af; }
+.badge-status-proposta { background-color: #fce7f3; color: #be185d; }
+.badge-status-fechado { background-color: #d1fae5; color: #047857; }
+.badge-status-perdido { background-color: #fee2e2; color: #b91c1c; }
+
+/* Action Buttons na Tabela */
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.25rem;
+    margin-left: 0.5rem;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.action-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
