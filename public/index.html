@@ -101,8 +101,48 @@
         </div>
     </div>
 
+    <!-- Drawer Lateral (Mestre-Detalhe de Interações) -->
+    <div id="interacoes-overlay" class="drawer-overlay hidden"></div>
+    <div id="interacoes-drawer" class="drawer hidden">
+        <div class="drawer-header">
+            <div>
+                <h2 id="drawer-titulo" style="margin-bottom: 0.2rem;">Histórico do Lead</h2>
+                <small id="drawer-subtitulo" class="text-muted">Acompanhe as interações</small>
+            </div>
+            <button class="btn btn-outline" id="btn-fechar-drawer" style="padding: 0.2rem 0.5rem; height: 32px;">✕</button>
+        </div>
+        
+        <div class="drawer-content">
+            <div id="timeline-interacoes" class="timeline">
+                <!-- JS vai injetar os cards de interação aqui -->
+                <p class="text-muted" style="text-align: center; margin-top: 2rem;">Carregando...</p>
+            </div>
+        </div>
+
+        <div class="drawer-footer">
+            <form id="form-interacao">
+                <div class="form-group">
+                    <label for="interacao-tipo">Tipo de Contato</label>
+                    <select id="interacao-tipo" class="form-control" required style="margin-bottom: 0.5rem;">
+                        <option value="Ligação">📞 Ligação</option>
+                        <option value="E-mail">✉️ E-mail</option>
+                        <option value="WhatsApp">💬 WhatsApp</option>
+                        <option value="Reunião">🤝 Reunião</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="interacao-descricao">Descrição (O que aconteceu?)</label>
+                    <textarea id="interacao-descricao" class="form-control" rows="3" required placeholder="Ex: Cliente pediu orçamento..."></textarea>
+                </div>
+                <div id="interacao-erro" class="text-danger hidden" style="margin-bottom: var(--spacing-2); font-size: 0.85rem;"></div>
+                <button type="submit" class="btn btn-primary btn-block" id="btn-salvar-interacao">Registrar Interação</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="/js/app.js"></script>
     <script src="/js/leadsView.js"></script>
+    <script src="/js/interacoesView.js"></script>
 </body>
 </html>

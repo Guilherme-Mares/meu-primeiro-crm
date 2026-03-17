@@ -330,3 +330,117 @@ a {
     opacity: 1;
     transform: scale(1.1);
 }
+/* =========================================================================
+   DRAWER (PAINEL LATERAL) & TIMELINE
+   ========================================================================= */
+
+.drawer-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 900;
+    transition: opacity 0.3s;
+}
+
+.drawer-overlay.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: 400px;
+    height: 100%;
+    background-color: var(--color-surface);
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer.open {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    padding: var(--spacing-4);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.drawer-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: var(--spacing-4);
+    background-color: var(--color-bg);
+}
+
+.drawer-footer {
+    padding: var(--spacing-4);
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.35rem; /* center the line */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--color-border);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: var(--spacing-4);
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.45rem; /* center the dot on the line */
+    top: 0.25rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    border: 2px solid var(--color-surface);
+}
+
+.timeline-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-3);
+    box-shadow: var(--shadow-sm);
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-2);
+}
+
+.timeline-tipo {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--color-primary);
+}
+
+.timeline-data {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}

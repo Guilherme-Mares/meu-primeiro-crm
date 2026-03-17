@@ -55,10 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><span class="badge ${statusClass}">${lead.status}</span></td>
                 <td class="text-muted">${lead.data_criacao}</td>
                 <td style="text-align: right;">
-                    <button class="action-btn" onclick="window.abrirModalEdicao(${lead.id_lead})" title="Editar">✏️</button>
-                    <button class="action-btn" onclick="window.excluirLead(${lead.id_lead})" title="Excluir">🗑️</button>
+                    <button class="action-btn" onclick="event.stopPropagation(); window.abrirModalEdicao(${lead.id_lead})" title="Editar">✏️</button>
+                    <button class="action-btn" onclick="event.stopPropagation(); window.excluirLead(${lead.id_lead})" title="Excluir">🗑️</button>
                 </td>
             `;
+
+            // Permite clicar na linha inteira para ver o histórico (Issue 8)
+            tr.style.cursor = 'pointer';
+            tr.onclick = () => window.abrirDrawerInteracoes(lead.id_lead, lead.nome_cliente);
+
             tbody.appendChild(tr);
         });
     }

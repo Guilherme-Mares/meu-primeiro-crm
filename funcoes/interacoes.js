@@ -12,9 +12,9 @@ import { carregarLeads } from "./leads.js";
 // 📚 CONCEITO: Enum para padronizar os tipos canais de contato
 export const TIPOS_VALIDOS = [
     "Ligação",
-    "Email",
+    "E-mail", // Ajustei para E-mail para dar match com o select html
     "Reunião",
-    "Whatsapp"
+    "WhatsApp"
 ];
 
 const __filename = fileURLToPath(import.meta.url);
