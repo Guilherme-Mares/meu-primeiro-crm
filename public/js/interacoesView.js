@@ -32,8 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Setup UI
         titulo.textContent = nomeLead;
+        
+        // 1. Garante que o overlay vai aparecer e ser clicável
         overlay.classList.remove('hidden');
-        // Pequeno delay para a classe hidden sumir antes de animar o transform
+        // 2. Em seguida adiciona open no drawer para ativar a transição CSS
         setTimeout(() => drawer.classList.add('open'), 10);
         
         formInteracao.reset();
@@ -43,12 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.fecharDrawerInteracoes = function() {
+        // 1. Slide para fora
         drawer.classList.remove('open');
-        // Espera a animação de saída de 0.3s (definido no CSS)
+        // 2. Após a animação de saída, bloqueia cliques no overlay
         setTimeout(() => {
             overlay.classList.add('hidden');
             leadInteracaoAtualId = null;
-        }, 300);
+        }, 310); // levemente após o transition de 0.3s
     };
 
     // =========================================================

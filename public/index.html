@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Primeiro CRM</title>
+    <!-- Chart.js para o Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -33,6 +35,30 @@
             </header>
 
             <section id="content-area" class="content">
+                
+                <!-- Dashboard Resumo (Issue 9) -->
+                <div id="dashboard-resumo" class="dashboard-cards" style="display: none;">
+                    <div class="kpi-card card">
+                        <div class="kpi-title">Total de Leads</div>
+                        <div class="kpi-value" id="kpi-total">0</div>
+                    </div>
+                    <div class="kpi-card card">
+                        <div class="kpi-title">Negócios Fechados</div>
+                        <div class="kpi-value text-success" id="kpi-fechados">0</div>
+                    </div>
+                    <div class="kpi-card card">
+                        <div class="kpi-title">Taxa de Conversão</div>
+                        <div class="kpi-value" id="kpi-conversao">0%</div>
+                    </div>
+                    <div class="kpi-card card kpi-chart-card">
+                        <div class="kpi-title">Funil de Vendas</div>
+                        <div style="position: relative; height: 120px; width: 100%; display: flex; justify-content: center;">
+                            <canvas id="funnelChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela de Clientes -->
                 <div class="card">
                     <div class="card-header">
                         <h2>Meus Clientes</h2>
@@ -103,7 +129,7 @@
 
     <!-- Drawer Lateral (Mestre-Detalhe de Interações) -->
     <div id="interacoes-overlay" class="drawer-overlay hidden"></div>
-    <div id="interacoes-drawer" class="drawer hidden">
+    <div id="interacoes-drawer" class="drawer">
         <div class="drawer-header">
             <div>
                 <h2 id="drawer-titulo" style="margin-bottom: 0.2rem;">Histórico do Lead</h2>
@@ -142,6 +168,7 @@
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+    <script src="/js/dashboardView.js"></script>
     <script src="/js/leadsView.js"></script>
     <script src="/js/interacoesView.js"></script>
 </body>

@@ -339,12 +339,13 @@ a {
     top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 900;
+    opacity: 1;
     transition: opacity 0.3s;
 }
 
 .drawer-overlay.hidden {
-    display: none;
     opacity: 0;
+    pointer-events: none;
 }
 
 .drawer {
@@ -443,4 +444,52 @@ a {
 .timeline-data {
     font-size: 0.75rem;
     color: var(--color-text-muted);
+}
+/* =========================================================================
+   DASHBOARD — KPI CARDS
+   ========================================================================= */
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 1.6fr;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-4);
+}
+
+.kpi-card {
+    padding: var(--spacing-4);
+}
+
+.kpi-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-2);
+}
+
+.kpi-value {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+}
+
+.kpi-chart-card {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsividade básica: em telas menores, empilha os cards */
+@media (max-width: 900px) {
+    .dashboard-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
 }
