@@ -12,10 +12,15 @@ router.use(verificarSessao);
  * GET /api/leads/:id/interacoes
  * Retorna o histórico de interações de um lead específico.
  */
-router.get('/', (req, res) => {
-    const { id } = req.params;
-    const interacoes = listarInteracoesDoLead(id);
-    res.json(interacoes);
+router.get('/', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const interacoes = await listarInteracoesDoLead(id);
+        res.json(interacoes);
+    } catch (erro) {
+        console.error('❌ ERRO no GET /api/interacoes:', erro);
+        res.status(500).json({ erro: 'Erro ao buscar interações do lead.' });
+    }
 });
 
 /**
@@ -23,22 +28,27 @@ router.get('/', (req, res) => {
  * Registra uma nova interação para o lead.
  * Body: { tipo, descricao }
  */
-router.post('/', (req, res) => {
-    const { id } = req.params;
-    const { tipo, descricao } = req.body;
-    const { id_usuario } = req.usuario;
+router.post('/', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { tipo, descricao } = req.body;
+        const { id_usuario } = req.usuario;
 
-    if (!tipo || !descricao) {
-        return res.status(400).json({ erro: 'Tipo e descrição são obrigatórios.' });
+        if (!tipo || !descricao) {
+            return res.status(400).json({ erro: 'Tipo e descrição são obrigatórios.' });
+        }
+
+        const novaInteracao = await adicionarInteracao(id, tipo, descricao, id_usuario);
+
+        if (!novaInteracao) {
+            return res.status(400).json({ erro: 'Falha ao registrar interação. Verifique o ID do lead e o tipo informado.' });
+        }
+
+        res.status(201).json(novaInteracao);
+    } catch (erro) {
+        console.error('❌ ERRO no POST /api/interacoes:', erro);
+        res.status(500).json({ erro: 'Erro interno ao registrar interação.' });
     }
-
-    const novaInteracao = adicionarInteracao(id, tipo, descricao, id_usuario);
-
-    if (!novaInteracao) {
-        return res.status(400).json({ erro: 'Falha ao registrar interação. Verifique o ID do lead e o tipo informado.' });
-    }
-
-    res.status(201).json(novaInteracao);
 });
 
 export default router;

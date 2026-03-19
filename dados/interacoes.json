@@ -6,5 +6,13 @@
     "tipo": "Email",
     "descricao": "Enviei proposta comercial via API",
     "data_registro": "11/03/2026, 18:42:14"
+  },
+  {
+    "id_interacao": 2,
+    "id_lead": 41,
+    "id_usuario": 1,
+    "tipo": "WhatsApp",
+    "descricao": "Mensagem de boas-vindas enviada.",
+    "data_registro": "17/03/2026, 16:16:11"
   }
 ]

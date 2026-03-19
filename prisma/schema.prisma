@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// =====================================================
+// Modelo: Usuario
+// Representa um usuário do sistema CRM.
+// =====================================================
+model Usuario {
+  id         Int          @id @default(autoincrement())
+  nome       String
+  email      String       @unique
+  senha      String
+
+  // Relações 1:N
+  leads      Lead[]
+  interacoes Interacao[]
+}
+
+// =====================================================
+// Modelo: Lead
+// Representa um cliente/oportunidade de venda.
+// =====================================================
+model Lead {
+  id           Int          @id @default(autoincrement())
+  nome_cliente String
+  email        String       // Armazenado criptografado (AES-256)
+  telefone     String
+  status       String       @default("Novo")
+  data_criacao String
+
+  // Chave Estrangeira - dono do lead
+  id_usuario   Int
+  usuario      Usuario      @relation(fields: [id_usuario], references: [id])
+
+  // Relação 1:N com Interacoes
+  interacoes   Interacao[]
+}
+
+// =====================================================
+// Modelo: Interacao
+// Representa cada contato feito com o lead (1:N).
+// =====================================================
+model Interacao {
+  id            Int     @id @default(autoincrement())
+  tipo          String  // Ligação, E-mail, WhatsApp, Reunião
+  descricao     String
+  data_registro String
+
+  // Chave Estrangeira - lead que recebeu a interação
+  id_lead       Int
+  lead          Lead    @relation(fields: [id_lead], references: [id], onDelete: Cascade)
+
+  // Chave Estrangeira - usuário que fez o registro
+  id_usuario    Int
+  usuario       Usuario @relation(fields: [id_usuario], references: [id])
+}

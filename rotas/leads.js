@@ -18,15 +18,15 @@ router.use(verificarSessao);
  * GET /api/leads
  * Retorna todos os leads. Aceita ?busca=nome para filtrar.
  */
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     const { busca } = req.query;
 
     if (busca) {
-        const resultados = buscarLeadPorNome(busca);
+        const resultados = await buscarLeadPorNome(busca);
         return res.json(resultados);
     }
 
-    const leads = listarLeads();
+    const leads = await listarLeads();
     res.json(leads);
 });
 
@@ -35,17 +35,22 @@ router.get('/', (req, res) => {
  * Cria um novo lead. Usa o id_usuario do token JWT.
  * Body: { nome, email, telefone }
  */
-router.post('/', (req, res) => {
-    const { nome, email, telefone } = req.body;
-    const { id_usuario } = req.usuario;
+router.post('/', async (req, res) => {
+    try {
+        const { nome, email, telefone } = req.body;
+        const { id_usuario } = req.usuario;
 
-    const novoLead = cadastrarNovoLead(nome, email, telefone, id_usuario);
+        const novoLead = await cadastrarNovoLead(nome, email, telefone, id_usuario);
 
-    if (!novoLead) {
-        return res.status(400).json({ erro: 'Dados inválidos. Verifique nome, email e telefone.' });
+        if (!novoLead) {
+            return res.status(400).json({ erro: 'Dados inválidos. Verifique nome, email e telefone.' });
+        }
+
+        res.status(201).json(novoLead);
+    } catch (erro) {
+        console.error('❌ ERRO CRÍTICO no POST /api/leads:', erro);
+        res.status(500).json({ erro: 'Erro interno do servidor ao cadastrar lead.' });
     }
-
-    res.status(201).json(novoLead);
 });
 
 /**
@@ -53,20 +58,20 @@ router.post('/', (req, res) => {
  * Edita um lead existente.
  * Body: { nome?, email?, telefone?, status? }
  */
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const novosDados = req.body;
 
     // Se só veio o campo status, usa a função específica do funil
     if (Object.keys(novosDados).length === 1 && novosDados.status) {
-        const atualizado = atualizarStatusLead(id, novosDados.status);
+        const atualizado = await atualizarStatusLead(id, novosDados.status);
         if (!atualizado) {
             return res.status(400).json({ erro: 'Status inválido ou lead não encontrado.' });
         }
         return res.json(atualizado);
     }
 
-    const atualizado = editarLead(id, novosDados);
+    const atualizado = await editarLead(id, novosDados);
 
     if (!atualizado) {
         return res.status(400).json({ erro: 'Lead não encontrado ou dados inválidos.' });
@@ -79,9 +84,9 @@ router.put('/:id', (req, res) => {
  * DELETE /api/leads/:id
  * Exclui um lead pelo ID.
  */
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
-    const deletado = excluirLead(id);
+    const deletado = await excluirLead(id);
 
     if (!deletado) {
         return res.status(404).json({ erro: `Lead com ID ${id} não encontrado.` });

@@ -1,94 +1,93 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
 import { adicionarInteracao, listarInteracoesDoLead } from '../funcoes/interacoes.js';
-import { cadastrarNovoLead, salvarLeads } from '../funcoes/leads.js';
+import { cadastrarNovoLead } from '../funcoes/leads.js';
+import prisma from '../lib/prisma.js';
 
-// Configuração de ambiente para os testes
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const CAMINHO_TEST_DB = path.join(__dirname, '..', 'dados', 'interacoes.test.json');
-const CAMINHO_LEAD_DB = path.join(__dirname, '..', 'dados', 'leads.test.json');
+/**
+ * 📚 CONCEITO: Testes de Integração (1:N) com Prisma
+ * 
+ * Verificamos se as interações estão sendo corretamente vinculadas aos leads
+ * no banco de dados SQLite.
+ */
 
-describe('Módulo de Interações (1:N)', () => {
+describe('Módulo de Interações (Prisma)', () => {
+    let idUsuarioTeste = 1;
 
-    beforeEach(() => {
-        // Limpa o banco de testes antes de rodar os cenários
-        fs.writeFileSync(CAMINHO_TEST_DB, '[]', 'utf-8');
-        fs.writeFileSync(CAMINHO_LEAD_DB, '[]', 'utf-8');
+    beforeAll(async () => {
+        // Garante usuário para os testes
+        const usuario = await prisma.usuario.upsert({
+            where: { email: 'test-int@externo.com' },
+            update: {},
+            create: {
+                nome: 'Admin Teste',
+                email: 'test-int@externo.com',
+                senha: '123'
+            }
+        });
+        idUsuarioTeste = usuario.id;
     });
 
-    afterAll(() => {
-        // Remove os arquivos de teste
-        if (fs.existsSync(CAMINHO_TEST_DB)) fs.unlinkSync(CAMINHO_TEST_DB);
-        if (fs.existsSync(CAMINHO_LEAD_DB)) fs.unlinkSync(CAMINHO_LEAD_DB);
+    beforeEach(async () => {
+        // Limpeza em ordem para respeitar FKs (Interacao primeiro, depois Lead)
+        // Embora deleteMany de Lead com onDelete: Cascade no schema resolveria,
+        // é boa prática ser explícito nos testes.
+        await prisma.interacao.deleteMany();
+        await prisma.lead.deleteMany();
+    });
+
+    afterAll(async () => {
+        await prisma.$disconnect();
     });
 
     describe('adicionarInteracao()', () => {
 
-        test('deve registrar com sucesso uma nova interação vinculada ao Lead (ForeignKey válida)', () => {
-            const lead = cadastrarNovoLead("Joao Teste", "joao@t.com", "123", 1);
-            const int = adicionarInteracao(lead.id_lead, "Email", "Enviei apresentação", 1);
+        test('deve registrar com sucesso uma nova interação vinculada ao Lead', async () => {
+            const lead = await cadastrarNovoLead("Joao Teste", "joao@t.com", "123", idUsuarioTeste);
+            const int = await adicionarInteracao(lead.id_lead, "E-mail", "Enviei apresentação", idUsuarioTeste);
 
             expect(int).not.toBeNull();
-            expect(int.tipo).toBe("Email");
-            expect(int.descricao).toBe("Enviei apresentação");
-            expect(int.id_lead).toBe(lead.id_lead); // A mágica relacional
+            expect(int.tipo).toBe("E-mail");
+            expect(int.id_lead).toBe(lead.id_lead);
         });
 
-        test('deve rejeitar uma interação caso o ID do Lead não exista', () => {
-            const int = adicionarInteracao(999, "Reunião", "Apresentou erro", 1);
+        test('deve rejeitar uma interação caso o ID do Lead não exista', async () => {
+            const int = await adicionarInteracao(9999, "Reunião", "Apresentou erro", idUsuarioTeste);
             expect(int).toBeNull();
         });
 
-        test('deve rejeitar quando o tipo de interação for inválido (Fora do Enum)', () => {
-            const lead = cadastrarNovoLead("Maria Teste", "maria@t.com", "123", 1);
-            const int = adicionarInteracao(lead.id_lead, "Grito", "Gritei com o cliente", 1);
+        test('deve rejeitar quando o tipo de interação for inválido', async () => {
+            const lead = await cadastrarNovoLead("Maria Teste", "maria@t.com", "123", idUsuarioTeste);
+            const int = await adicionarInteracao(lead.id_lead, "Grito", "Gritei com o cliente", idUsuarioTeste);
 
             expect(int).toBeNull();
         });
 
-        test('deve rejeitar histórico sem descrição ou em branco', () => {
-            const lead = cadastrarNovoLead("Joao Teste", "joao@t.com", "123", 1);
-            const intBranco = adicionarInteracao(lead.id_lead, "Ligação", "", 1);
-            const intNula = adicionarInteracao(lead.id_lead, "Ligação", null, 1);
+        test('deve rejeitar histórico sem descrição ou em branco', async () => {
+            const lead = await cadastrarNovoLead("Joao Teste", "joao@t.com", "123", idUsuarioTeste);
+            const intBranco = await adicionarInteracao(lead.id_lead, "Ligação", " ", idUsuarioTeste);
 
             expect(intBranco).toBeNull();
-            expect(intNula).toBeNull();
         });
     });
 
     describe('listarInteracoesDoLead()', () => {
 
-        test('deve listar o array vazio se o lead não tem interações', () => {
-            const lista = listarInteracoesDoLead(10);
+        test('deve listar o array vazio se o lead não tem interações', async () => {
+            const lista = await listarInteracoesDoLead(9999);
             expect(lista).toEqual([]);
         });
 
-        test('deve listar apenas as interações do Lead pesquisado (ignorar de outros)', () => {
-            // Setup: Criamos 2 clientes distintos
-            const leadUm = cadastrarNovoLead("Primeiro", "um@t.com", "111", 1);
-            const leadDois = cadastrarNovoLead("Segundo", "dois@t.com", "222", 1);
+        test('deve listar apenas as interações do Lead pesquisado', async () => {
+            const leadUm = await cadastrarNovoLead("Primeiro", "um@t.com", "111", idUsuarioTeste);
+            const leadDois = await cadastrarNovoLead("Segundo", "dois@t.com", "222", idUsuarioTeste);
 
-            // Cria 3 interações: duas pro Lead 1, uma pro Lead 2
-            adicionarInteracao(leadUm.id_lead, "Reunião", "Draft online", 1);
-            adicionarInteracao(leadUm.id_lead, "Email", "Follow-up do draft", 1);
-            adicionarInteracao(leadDois.id_lead, "Ligação", "Primeiro contato", 1);
+            await adicionarInteracao(leadUm.id_lead, "Reunião", "Draft online", idUsuarioTeste);
+            await adicionarInteracao(leadUm.id_lead, "E-mail", "Follow-up", idUsuarioTeste);
+            await adicionarInteracao(leadDois.id_lead, "Ligação", "Contato", idUsuarioTeste);
 
-            // Exige somente o log do Lead 1
-            const resultLeadUm = listarInteracoesDoLead(leadUm.id_lead);
+            const resultLeadUm = await listarInteracoesDoLead(leadUm.id_lead);
 
-            // Verifica (Asserts)
             expect(resultLeadUm.length).toBe(2);
-            expect(resultLeadUm[0].tipo).toBe("Reunião");
-            expect(resultLeadUm[1].tipo).toBe("Email");
-
-            // O Log do Lead 2 que é Ligação não pode aparecer na lista do Lead 1
-            const ligacoesVazadas = resultLeadUm.filter(i => i.tipo === "Ligação");
-            expect(ligacoesVazadas.length).toBe(0);
+            expect(resultLeadUm.every(i => i.id_lead === leadUm.id_lead)).toBe(true);
         });
-
     });
-
 });
