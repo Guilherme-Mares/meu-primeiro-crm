@@ -35,16 +35,6 @@ const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export async function cadastrarNovoLead(nome, email, telefone, id_usuario) {
     console.log('\n--- [SISTEMA] Iniciando processo de cadastro... ---');
 
-    if (!nome || !email || !telefone || !id_usuario) {
-        console.log('❌ ERRO DE VALIDAÇÃO: Todos os campos devem ser preenchidos, incluindo o ID do usuário.');
-        return null;
-    }
-
-    if (!REGEX_EMAIL.test(email)) {
-        console.log('❌ ERRO DE VALIDAÇÃO: O email informado possui um formato inválido.');
-        return null;
-    }
-
     const emailSeguro = encriptar(email);
     console.log('🔒 Dados sensíveis protegidos com AES-256 com sucesso.');
 
@@ -123,18 +113,6 @@ export async function editarLead(id, novosDados) {
 
     if (!leadAtual) {
         console.log(`\n❌ ERRO: Nenhum lead encontrado com o ID ${id}.`);
-        return null;
-    }
-
-    if (novosDados.email) {
-        if (!REGEX_EMAIL.test(novosDados.email)) {
-            console.log('❌ ERRO DE VALIDAÇÃO: O email informado possui um formato inválido.');
-            return null;
-        }
-    }
-
-    if (novosDados.status && !STATUS_VALIDOS.includes(novosDados.status)) {
-        console.log(`❌ ERRO DE VALIDAÇÃO: O status '${novosDados.status}' não é reconhecido pelo funil de vendas.`);
         return null;
     }
 

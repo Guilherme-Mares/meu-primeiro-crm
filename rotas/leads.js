@@ -8,6 +8,8 @@ import {
     atualizarStatusLead,
     excluirLead
 } from '../funcoes/leads.js';
+import { validarSchema } from '../middlewares/validarSchema.js';
+import { leadSchema } from '../schemas/leads.js';
 
 const router = Router();
 
@@ -35,7 +37,7 @@ router.get('/', async (req, res) => {
  * Cria um novo lead. Usa o id_usuario do token JWT.
  * Body: { nome, email, telefone }
  */
-router.post('/', async (req, res) => {
+router.post('/', validarSchema(leadSchema), async (req, res) => {
     try {
         const { nome, email, telefone } = req.body;
         const { id_usuario } = req.usuario;
@@ -54,30 +56,25 @@ router.post('/', async (req, res) => {
 });
 
 /**
- * PUT /api/leads/:id
  * Edita um lead existente.
  * Body: { nome?, email?, telefone?, status? }
  */
-router.put('/:id', async (req, res) => {
-    const { id } = req.params;
-    const novosDados = req.body;
+router.put('/:id', validarSchema(leadSchema.partial()), async (req, res) => {
+    try {
+        const { id } = req.params;
+        const novosDados = req.body;
 
-    // Se só veio o campo status, usa a função específica do funil
-    if (Object.keys(novosDados).length === 1 && novosDados.status) {
-        const atualizado = await atualizarStatusLead(id, novosDados.status);
+        const atualizado = await editarLead(id, novosDados);
+
         if (!atualizado) {
-            return res.status(400).json({ erro: 'Status inválido ou lead não encontrado.' });
+            return res.status(400).json({ erro: 'Lead não encontrado ou dados inválidos.' });
         }
-        return res.json(atualizado);
+
+        res.json(atualizado);
+    } catch (erro) {
+        console.error('❌ ERRO no PUT /api/leads:', erro);
+        res.status(500).json({ erro: 'Erro ao atualizar lead.' });
     }
-
-    const atualizado = await editarLead(id, novosDados);
-
-    if (!atualizado) {
-        return res.status(400).json({ erro: 'Lead não encontrado ou dados inválidos.' });
-    }
-
-    res.json(atualizado);
 });
 
 /**

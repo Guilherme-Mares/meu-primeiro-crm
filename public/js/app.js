@@ -43,7 +43,9 @@ async function apiFetch(endpoint, opcoes = {}) {
         }
 
         if (!resposta.ok) {
-            throw new Error(dados.erro || 'Erro na requisição');
+            const erro = new Error(dados.erro || 'Erro na requisição');
+            erro.detalhes = dados.detalhes; // Anexa detalhes da validação (Zod)
+            throw erro;
         }
 
         return dados;

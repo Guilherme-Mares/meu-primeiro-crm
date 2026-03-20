@@ -41,11 +41,20 @@ app.listen(PORT, () => {
     console.log(`🚀 Servidor CRM rodando em http://localhost:${PORT}`);
 });
 
-// 📚 CONCEITO: Tratamento Global de Erros (Resiliência)
-// Evita que o servidor caia por exceções não tratadas em rotas assíncronas.
+// 📚 CONCEITO: Tratamento Global de Erros (Resiliência Sênior)
+// Centraliza a captura de exceções para evitar que o Node.js encerre o processo.
 app.use((err, req, res, next) => {
-    console.error('💥 ERRO FATAL NO SERVIDOR:', err);
-    res.status(500).json({ erro: 'Houve um erro crítico no servidor. Tente novamente mais tarde.' });
+    // Erros do Prisma costumam ter meta-dados úteis
+    if (err.code && err.code.startsWith('P')) {
+        console.error('🗄️  ERRO DE BANCO DE DADOS (Prisma):', err.message);
+        return res.status(400).json({ erro: 'Erro nas operações de banco de dados. Verifique os dados enviados.' });
+    }
+
+    console.error('💥 ERRO NÃO TRATADO:', err);
+    res.status(500).json({
+        erro: 'Ocorreu um erro interno inesperado.',
+        mensagem: process.env.NODE_ENV === 'development' ? err.message : 'Tente novamente mais tarde.'
+    });
 });
 
 export default app;

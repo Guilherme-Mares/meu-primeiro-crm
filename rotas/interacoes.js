@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { verificarSessao } from '../middlewares/verificarSessao.js';
 import { listarInteracoesDoLead, adicionarInteracao } from '../funcoes/interacoes.js';
+import { validarSchema } from '../middlewares/validarSchema.js';
+import { interacaoSchema } from '../schemas/interacoes.js';
 
 // mergeParams: true permite acessar o :id definido na rota pai (/api/leads/:id)
 const router = Router({ mergeParams: true });
@@ -28,7 +30,7 @@ router.get('/', async (req, res) => {
  * Registra uma nova interação para o lead.
  * Body: { tipo, descricao }
  */
-router.post('/', async (req, res) => {
+router.post('/', validarSchema(interacaoSchema), async (req, res) => {
     try {
         const { id } = req.params;
         const { tipo, descricao } = req.body;

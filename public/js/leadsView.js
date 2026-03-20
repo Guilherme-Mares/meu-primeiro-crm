@@ -144,7 +144,13 @@ document.addEventListener('DOMContentLoaded', () => {
             window.fecharModal();
             carregarLeads(); // Recarrega
         } catch (erro) {
-            divErro.textContent = erro.message;
+            if (erro.detalhes && Array.isArray(erro.detalhes)) {
+                // Formata os erros do Zod de forma amigável
+                const listaErros = erro.detalhes.map(d => `<li>${d.mensagem}</li>`).join('');
+                divErro.innerHTML = `<ul style="margin: 0; padding-left: 1.2rem;">${listaErros}</ul>`;
+            } else {
+                divErro.textContent = erro.message;
+            }
             divErro.classList.remove('hidden');
         } finally {
             btnSalvar.disabled = false;
