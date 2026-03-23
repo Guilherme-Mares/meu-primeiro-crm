@@ -1,1 +1,0 @@
-fix: corrigir bug de drawer nao abrindo devido a conflito entre hidden e trasição de CSS
