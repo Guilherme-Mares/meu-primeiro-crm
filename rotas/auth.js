@@ -7,8 +7,43 @@ const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'crm-segredo-dev';
 
 /**
- * POST /api/login
- * Recebe { email, senha } e retorna um token JWT se as credenciais forem válidas.
+ * @swagger
+ * /api/login:
+ *   post:
+ *     summary: Autentica um usuário e retorna um token JWT
+ *     tags: [Autenticação]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - senha
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: guilherme@crm.pro
+ *               senha:
+ *                 type: string
+ *                 example: 123456
+ *     responses:
+ *       200:
+ *         description: Login bem-sucedido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensagem:
+ *                   type: string
+ *                 token:
+ *                   type: string
+ *       400:
+ *         description: E-mail e senha são obrigatórios
+ *       401:
+ *         description: Credenciais inválidas
  */
 router.post('/login', async (req, res) => {
     const { email, senha } = req.body;

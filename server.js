@@ -4,6 +4,39 @@ import authRouter from './rotas/auth.js';
 import leadsRouter from './rotas/leads.js';
 import interacoesRouter from './rotas/interacoes.js';
 import dashboardRouter from './rotas/dashboard.js';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+
+// Configuração do Swagger
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'CRM API',
+            version: '1.0.0',
+            description: 'Documentação da API do Meu Primeiro CRM (REST)',
+        },
+        servers: [
+            {
+                url: 'http://localhost:3000',
+                description: 'Servidor Local'
+            },
+        ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+            },
+        },
+    },
+    apis: ['./rotas/*.js'], // Caminho onde estão as anotações JSDoc
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
 // Middleware disponível para rotas protegidas nas próximas Issues
 export { verificarSessao } from './middlewares/verificarSessao.js';
 
@@ -14,6 +47,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
+
+// Documentação interativa (Swagger)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Rotas públicas
 app.get('/api/status', (_req, res) => {

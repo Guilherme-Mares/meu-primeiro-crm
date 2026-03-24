@@ -17,8 +17,22 @@ const router = Router();
 router.use(verificarSessao);
 
 /**
- * GET /api/leads
- * Retorna todos os leads. Aceita ?busca=nome para filtrar.
+ * @swagger
+ * /api/leads:
+ *   get:
+ *     summary: Lista todos os leads ou busca por nome
+ *     tags: [Leads]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: busca
+ *         schema:
+ *           type: string
+ *         description: Nome do lead para filtrar
+ *     responses:
+ *       200:
+ *         description: Lista de leads retornada com sucesso
  */
 router.get('/', async (req, res) => {
     const { busca } = req.query;
@@ -33,9 +47,38 @@ router.get('/', async (req, res) => {
 });
 
 /**
- * POST /api/leads
- * Cria um novo lead. Usa o id_usuario do token JWT.
- * Body: { nome, email, telefone }
+ * @swagger
+ * /api/leads:
+ *   post:
+ *     summary: Cria um novo lead
+ *     tags: [Leads]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - nome
+ *               - email
+ *               - telefone
+ *             properties:
+ *               nome:
+ *                 type: string
+ *                 example: João Silva
+ *               email:
+ *                 type: string
+ *                 example: joao@cliente.com.br
+ *               telefone:
+ *                 type: string
+ *                 example: "11999998888"
+ *     responses:
+ *       201:
+ *         description: Lead criado com sucesso
+ *       400:
+ *         description: Dados inválidos
  */
 router.post('/', validarSchema(leadSchema), async (req, res) => {
     try {
@@ -56,8 +99,40 @@ router.post('/', validarSchema(leadSchema), async (req, res) => {
 });
 
 /**
- * Edita um lead existente.
- * Body: { nome?, email?, telefone?, status? }
+ * @swagger
+ * /api/leads/{id}:
+ *   put:
+ *     summary: Edita um lead existente
+ *     tags: [Leads]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do lead
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               telefone:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *                 enum: [Novo, Contatado, Qualificado, Proposta, Fechado, Perdido]
+ *     responses:
+ *       200:
+ *         description: Lead atualizado com sucesso
+ *       400:
+ *         description: ID inválido ou dados incorretos
  */
 router.put('/:id', validarSchema(leadSchema.partial()), async (req, res) => {
     try {
@@ -78,8 +153,25 @@ router.put('/:id', validarSchema(leadSchema.partial()), async (req, res) => {
 });
 
 /**
- * DELETE /api/leads/:id
- * Exclui um lead pelo ID.
+ * @swagger
+ * /api/leads/{id}:
+ *   delete:
+ *     summary: Exclui um lead pelo ID
+ *     tags: [Leads]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do lead
+ *     responses:
+ *       200:
+ *         description: Lead removido com sucesso
+ *       404:
+ *         description: Lead não encontrado
  */
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;

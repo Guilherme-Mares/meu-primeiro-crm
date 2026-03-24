@@ -8,8 +8,29 @@ const router = Router();
 router.use(verificarSessao);
 
 /**
- * GET /api/dashboard/kpis
- * Retorna o resumo (KPIs) de funil de vendas dos leads.
+ * @swagger
+ * /api/dashboard/kpis:
+ *   get:
+ *     summary: Retorna os KPIs do funil de vendas
+ *     tags: [Dashboard]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Resumo estatístico dos leads
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalLeads:
+ *                   type: integer
+ *                 leadsFechados:
+ *                   type: integer
+ *                 taxaConversao:
+ *                   type: number
+ *                 distribuicaoStatus:
+ *                   type: object
  */
 router.get('/kpis', async (req, res) => {
     try {

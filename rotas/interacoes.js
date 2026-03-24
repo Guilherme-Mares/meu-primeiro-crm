@@ -11,8 +11,25 @@ const router = Router({ mergeParams: true });
 router.use(verificarSessao);
 
 /**
- * GET /api/leads/:id/interacoes
- * Retorna o histórico de interações de um lead específico.
+ * @swagger
+ * /api/leads/{id}/interacoes:
+ *   get:
+ *     summary: Retorna o histórico de interações de um lead
+ *     tags: [Interações]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do lead
+ *     responses:
+ *       200:
+ *         description: Lista de interações do lead
+ *       500:
+ *         description: Erro ao buscar interações
  */
 router.get('/', async (req, res) => {
     try {
@@ -26,9 +43,42 @@ router.get('/', async (req, res) => {
 });
 
 /**
- * POST /api/leads/:id/interacoes
- * Registra uma nova interação para o lead.
- * Body: { tipo, descricao }
+ * @swagger
+ * /api/leads/{id}/interacoes:
+ *   post:
+ *     summary: Registra uma nova interação para o lead
+ *     tags: [Interações]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do lead
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - tipo
+ *               - descricao
+ *             properties:
+ *               tipo:
+ *                 type: string
+ *                 enum: [Ligação, E-mail, WhatsApp, Reunião]
+ *                 example: WhatsApp
+ *               descricao:
+ *                 type: string
+ *                 example: Cliente interessado na proposta enviada.
+ *     responses:
+ *       201:
+ *         description: Interação registrada com sucesso
+ *       400:
+ *         description: Dados inválidos ou ID do lead inexistente
  */
 router.post('/', validarSchema(interacaoSchema), async (req, res) => {
     try {
