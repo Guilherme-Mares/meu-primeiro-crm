@@ -31,6 +31,20 @@ A API é totalmente documentada e pode ser testada interativamente.
 1. Inicie o servidor.
 2. Acesse: `http://localhost:3000/api-docs`
 
+## 📸 Demonstração Visual (UI)
+
+Abaixo, algumas capturas de tela da interface moderna e funcional do CRM:
+
+| **Tela de Login** | **Dashboard / Index** |
+| :---: | :---: |
+| ![Login](./docs/Capturar-loginhtml-1.PNG) | ![Início](./docs/Capturar-index1.PNG) |
+| *Fluxo de autenticação JWT* | *Listagem de leads e resumo* |
+
+| **Navegação (Drawer)** | **Modelo de Dados (DER)** |
+| :---: | :---: |
+| ![Menu](./docs/Capturar-drawer.PNG) | ![DER](./docs/der-crm.png) |
+| *Menu lateral intuitivo* | *Arquitetura do banco de dados* |
+
 ## ▶️ Como Rodar Localmente
 
 ### Pré-requisitos
