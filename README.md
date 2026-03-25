@@ -8,10 +8,10 @@ O projeto agora funciona como uma **SPA (Single Page Application)** consumindo u
 
 ```mermaid
 graph TD
-    A[Browser / Client] -->|Requisição REST| B(Express Server)
+    A[Browser / Cliente] -->|Requisição REST| B(Express Server)
     B --> C{JWT Middleware}
     C -- Inválido --> D[Erro 401]
-    C -- Válido --> E[Controllers / Rotas]
+    C -- Válido --> E[Controladores / Rotas]
     E --> F[Prisma ORM]
     F --> G[(SQLite Database)]
     E --> H[Documentação Swagger]
